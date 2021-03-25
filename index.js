@@ -17,7 +17,7 @@ const NEXT_CHECK_TIMEOUT = 300;
             CHECK_URL,
             {
                 headers: {
-                    'User-Agent': 'vacinaminhamae/carai',
+                    'User-Agent': `vacinaminhamaecarai/${AGE_CHECK}anos`,
                 },
             }
         );
@@ -28,16 +28,19 @@ const NEXT_CHECK_TIMEOUT = 300;
         const vaccination = rows.first().find('td:last i').first();
         const schedule = rows.last().find('td:last i').first();
 
-        const isVaccinating = vaccination.is('.fa.fa-check-circle');
-        const isScheduling = schedule.is('.fa.fa-check-circle');
+        const isVaccinating = vaccination.is('.fa.fa-check-circle')
+            || vaccination.is('.fa.fa-circle');
+        const isScheduling = schedule.is('.fa.fa-check-circle')
+            || schedule.is('.fa.fa-circle')
+            || schedule.parent().text().trim().toLowerCase().indexOf('disponível') !== -1;
 
         let vaccinatingAge = null;
 
         if (isVaccinating) {
-            vaccinatingAge = vaccination.parent().text().trim().match(/\d+/);
+            vaccinatingAge = vaccination.parent().text().trim().match(/\d+/g);
 
             if (vaccinatingAge) {
-                vaccinatingAge = parseInt(vaccinatingAge[0], 10);
+                vaccinatingAge = vaccinatingAge.map(age => parseInt(age, 10)).sort().shift();
             }
         }
 
@@ -45,6 +48,7 @@ const NEXT_CHECK_TIMEOUT = 300;
         console.log(`Scheduling: ${isScheduling ? "\x1b[32mYES\x1b[0m" : "\x1b[31mNO\x1b[0m"}`);
 
         if (isVaccinating && isScheduling && (!vaccinatingAge || vaccinatingAge <= AGE_CHECK)) {
+            console.log('Enabled schedule!');
             opn(CHECK_URL);
 
             if (
@@ -77,8 +81,8 @@ const NEXT_CHECK_TIMEOUT = 300;
             return;
         }
 
-        console.log(`Next check in ${NEXT_CHECK_TIMEOUT} seconds\n`);
-        setTimeout(check, NEXT_CHECK_TIMEOUT * 1000);
+        console.log(`Next check in ${NEXT_CHECK_TIMEOUT * (isVaccinating && isScheduling ? 2 : 1)} seconds\n`);
+        setTimeout(check, NEXT_CHECK_TIMEOUT * (isVaccinating && isScheduling ? 2 : 1) * 1000);
     };
 
     await check();
