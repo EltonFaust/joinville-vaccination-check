@@ -1,0 +1,18 @@
+{
+  "name": "bot-vaccine-check",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "elton.h.faust@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "cheerio": "*",
+    "dotenv": "^8.2.0",
+    "nodemailer": "^6.5.0",
+    "opn": "^6.0.0"
+  }
+}
