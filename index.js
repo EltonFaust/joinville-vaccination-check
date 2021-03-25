@@ -11,9 +11,6 @@ const CHECK_URL = 'https://vacinajoinville.com.br/';
 const AGE_CHECK = parseInt(process.env.AGE_CHECK || 65, 10);
 const NEXT_CHECK_TIMEOUT = 300;
 
-const NOTIFY_ORIGIN = 'Vacinas <vacinas@vacinajoinville.com.br>';
-const NOTIFY_DESTINATION = 'elton.h.faust@gmail.com';
-
 (async () => {
     const check = async () => {
         const { data } = await axios.get(
