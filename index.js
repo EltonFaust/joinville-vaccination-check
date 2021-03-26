@@ -42,7 +42,7 @@ const NEXT_CHECK_TIMEOUT = 300;
             }
         }
 
-        console.log(`Vaccinating: ${isVaccinating ? `\x1b[32mYES\x1b[0m - ${vaccinatingAge ? `${vaccinatingAge} yeard old` : 'any age'}` : "\x1b[31mNO\x1b[0m"}`);
+        console.log(`Vaccinating: ${isVaccinating ? `\x1b[32mYES\x1b[0m - ${vaccinatingAge ? `${vaccinatingAge} years old` : 'any age'}` : "\x1b[31mNO\x1b[0m"}`);
         console.log(`Scheduling: ${isScheduling ? "\x1b[32mYES\x1b[0m" : "\x1b[31mNO\x1b[0m"}`);
 
         if (isVaccinating && isScheduling && (!vaccinatingAge || vaccinatingAge <= AGE_CHECK)) {
