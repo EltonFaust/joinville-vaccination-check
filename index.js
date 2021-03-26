@@ -28,10 +28,8 @@ const NEXT_CHECK_TIMEOUT = 300;
         const vaccination = rows.first().find('td:last i').first();
         const schedule = rows.last().find('td:last i').first();
 
-        const isVaccinating = vaccination.is('.fa.fa-check-circle')
-            || vaccination.is('.fa.fa-circle');
+        const isVaccinating = vaccination.is('.fa.fa-check-circle');
         const isScheduling = schedule.is('.fa.fa-check-circle')
-            || schedule.is('.fa.fa-circle')
             || schedule.parent().text().trim().toLowerCase().indexOf('disponível') !== -1;
 
         let vaccinatingAge = null;
