@@ -23,10 +23,9 @@ const NEXT_CHECK_TIMEOUT = 300;
         );
 
         const $ = cheerio.load(data);
-        const rows = $('table tbody tr');
 
-        const vaccination = rows.first().find('td:last i').first();
-        const schedule = rows.last().find('td:last i').first();
+        const vaccination = $('.card-group .card:last').find('i');
+        const schedule = $('.card.mt-3 h5.card-header i');
 
         const isVaccinating = vaccination.is('.fa.fa-check-circle');
         const isScheduling = schedule.is('.fa.fa-check-circle')
@@ -79,8 +78,9 @@ const NEXT_CHECK_TIMEOUT = 300;
             return;
         }
 
-        console.log(`Next check in ${NEXT_CHECK_TIMEOUT * (isVaccinating && isScheduling ? 2 : 1)} seconds\n`);
-        setTimeout(check, NEXT_CHECK_TIMEOUT * (isVaccinating && isScheduling ? 2 : 1) * 1000);
+        const nextCheckIn = NEXT_CHECK_TIMEOUT * (!isVaccinating || isScheduling ? 2 : (!isScheduling && (!vaccinatingAge || vaccinatingAge <= AGE_CHECK) ? 0.5 : 1)) * 1000;
+        console.log(`Next check at ${new Date(Date.now() + nextCheckIn).toLocaleTimeString()}\n`);
+        setTimeout(check, nextCheckIn);
     };
 
     await check();
