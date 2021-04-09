@@ -9,7 +9,7 @@ require('dotenv').config();
 
 const CHECK_URL = 'https://vacinajoinville.com.br/';
 const AGE_CHECK = parseInt(process.env.AGE_CHECK || 65, 10);
-const NEXT_CHECK_TIMEOUT = 300;
+const NEXT_CHECK_TIMEOUT = 60;
 
 (async () => {
     const check = async () => {
@@ -78,7 +78,7 @@ const NEXT_CHECK_TIMEOUT = 300;
             return;
         }
 
-        const nextCheckIn = NEXT_CHECK_TIMEOUT * (!isVaccinating || isScheduling ? 2 : (!isScheduling && (!vaccinatingAge || vaccinatingAge <= AGE_CHECK) ? 0.5 : 1)) * 1000;
+        const nextCheckIn = NEXT_CHECK_TIMEOUT * (!isVaccinating || isScheduling ? 2 : 1) * 1000;
         console.log(`Next check at ${new Date(Date.now() + nextCheckIn).toLocaleTimeString()}\n`);
         setTimeout(check, nextCheckIn);
     };
